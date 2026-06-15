@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>饭小赣 · 赣州职业技术学院食堂之外的选择</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍚</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --font:'Noto Sans SC',system-ui,-apple-system,sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"]{
+  --bg:#0a0e1a;
+  --bg2:rgba(15,20,40,.85);
+  --glass:rgba(255,255,255,.06);
+  --glass-border:rgba(255,255,255,.1);
+  --glass-hover:rgba(255,255,255,.12);
+  --text:#e8eaf6;
+  --text2:rgba(232,234,246,.65);
+  --accent:#64b5f6;
+  --accent2:#42a5f5;
+  --accent-glow:rgba(100,181,246,.25);
+  --tag-bg:rgba(100,181,246,.15);
+  --tag-text:#90caf9;
+  --card-shadow:0 8px 32px rgba(0,0,0,.4);
+  --price:#ffd54f;
+  --hot:#ef5350;
+  --sweet:#ff8a65;
+  --spicy:#ff7043;
+  --scrollbar:rgba(255,255,255,.15);
+  --scrollbar-hover:rgba(255,255,255,.25);
+  --hero-overlay:linear-gradient(135deg,rgba(10,14,26,.92) 0%,rgba(20,30,60,.88) 50%,rgba(10,14,26,.95) 100%);
+  --nav-bg:rgba(10,14,26,.75);
+  --search-bg:rgba(255,255,255,.08);
+  --divider:rgba(255,255,255,.08);
+  --badge-bg:rgba(239,83,80,.2);
+  --badge-text:#ef9a9a;
+  --time-icon:#81c784;
+  --modal-bg:rgba(10,14,26,.95);
+}
+[data-theme="light"]{
+  --bg:#f0f4f8;
+  --bg2:rgba(255,255,255,.9);
+  --glass:rgba(255,255,255,.7);
+  --glass-border:rgba(0,0,0,.08);
+  --glass-hover:rgba(255,255,255,.9);
+  --text:#1a237e;
+  --text2:rgba(26,35,126,.6);
+  --accent:#1565c0;
+  --accent2:#0d47a1;
+  --accent-glow:rgba(21,101,192,.15);
+  --tag-bg:rgba(21,101,192,.1);
+  --tag-text:#1565c0;
+  --card-shadow:0 8px 32px rgba(0,0,0,.08);
+  --price:#e65100;
+  --hot:#c62828;
+  --sweet:#e65100;
+  --spicy:#d84315;
+  --scrollbar:rgba(0,0,0,.12);
+  --scrollbar-hover:rgba(0,0,0,.22);
+  --hero-overlay:linear-gradient(135deg,rgba(240,244,248,.85) 0%,rgba(227,242,253,.9) 50%,rgba(240,244,248,.85) 100%);
+  --nav-bg:rgba(255,255,255,.8);
+  --search-bg:rgba(0,0,0,.05);
+  --divider:rgba(0,0,0,.06);
+  --badge-bg:rgba(198,40,40,.1);
+  --badge-text:#c62828;
+  --time-icon:#2e7d32;
+  --modal-bg:rgba(255,255,255,.97);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  transition:background .5s var(--ease),color .5s var(--ease);
+  -webkit-tap-highlight-color:transparent;
+}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--scrollbar);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-hover)}
+
+/* ===== HERO ===== */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:2rem 1.5rem;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1' fill='%23ffffff' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:var(--hero-overlay);
+  transition:background .5s var(--ease);
+}
+.hero-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.particle{
+  position:absolute;border-radius:50%;
+  background:var(--accent);
+  opacity:.15;
+  animation:float linear infinite;
+}
+@keyframes float{
+  0%{transform:translateY(100vh) scale(0)}
+  50%{opacity:.25}
+  100%{transform:translateY(-10vh) scale(1);opacity:0}
+}
+.hero-content{position:relative;z-index:2;max-width:700px}
+.hero-emoji{font-size:4.5rem;margin-bottom:1rem;animation:bounce 2s var(--ease) infinite;filter:drop-shadow(0 4px 20px rgba(255,213,79,.3))}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hero h1{
+  font-size:clamp(2rem,6vw,3.5rem);
+  font-weight:900;
+  letter-spacing:-.02em;
+  margin-bottom:.5rem;
+  background:linear-gradient(135deg,var(--accent),#e1bee7,var(--accent));
+  background-size:200% 200%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:grad 4s ease infinite;
+}
+@keyframes grad{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero-sub{
+  font-size:clamp(.95rem,2.5vw,1.15rem);
+  color:var(--text2);
+  margin-bottom:2.5rem;
+  line-height:1.7;
+  transition:color .5s var(--ease);
+}
+.hero-stats{
+  display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;
+  margin-bottom:2.5rem;
+}
+.stat{text-align:center}
+.stat-num{
+  font-size:clamp(1.8rem,4vw,2.5rem);
+  font-weight:900;color:var(--accent);
+  display:block;
+}
+.stat-label{font-size:.8rem;color:var(--text2);margin-top:.2rem}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.9rem 2.2rem;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;border:none;border-radius:50px;
+  font-size:1rem;font-weight:600;
+  cursor:pointer;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+  box-shadow:0 4px 24px var(--accent-glow);
+  text-decoration:none;
+}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 32px var(--accent-glow)}
+.hero-cta:active{transform:scale(.97)}
+.scroll-hint{
+  position:absolute;bottom:2rem;left:50%;
+  transform:translateX(-50%);
+  animation:scrollDown 2s var(--ease) infinite;
+  color:var(--text2);font-size:.8rem;
+  display:flex;flex-direction:column;align-items:center;gap:.4rem;
+}
+@keyframes scrollDown{0%,100%{transform:translateX(-50%) translateY(0);opacity:.6}50%{transform:translateX(-50%) translateY(8px);opacity:1}}
+
+/* ===== NAV ===== */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--nav-bg);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--glass-border);
+  transition:background .5s var(--ease),border .5s var(--ease);
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  padding:.7rem 1.5rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.nav-logo{
+  font-size:1.3rem;font-weight:900;
+  white-space:nowrap;
+  background:linear-gradient(135deg,var(--accent),#e1bee7);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  cursor:pointer;
+}
+.search-box{
+  flex:1;max-width:420px;position:relative;
+}
+.search-box input{
+  width:100%;padding:.65rem 1rem .65rem 2.6rem;
+  background:var(--search-bg);
+  border:1px solid var(--glass-border);
+  border-radius:12px;
+  color:var(--text);font-size:.9rem;
+  font-family:var(--font);
+  outline:none;
+  transition:all .3s var(--ease);
+}
+.search-box input::placeholder{color:var(--text2)}
+.search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.search-icon{
+  position:absolute;left:.85rem;top:50%;
+  transform:translateY(-50%);
+  color:var(--text2);font-size:1rem;pointer-events:none;
+}
+.nav-actions{display:flex;gap:.5rem;margin-left:auto}
+.nav-btn{
+  width:38px;height:38px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:10px;
+  color:var(--text);font-size:1.1rem;
+  cursor:pointer;
+  transition:all .25s var(--ease);
+}
+.nav-btn:hover{background:var(--glass-hover);transform:scale(1.05)}
+.nav-btn:active{transform:scale(.95)}
+
+/* ===== LOCATION NAV ===== */
+.loc-nav{
+  max-width:1200px;margin:0 auto;
+  padding:1rem 1.5rem 0;
+  display:flex;gap:.5rem;overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.loc-nav::-webkit-scrollbar{display:none}
+.loc-chip{
+  flex-shrink:0;
+  padding:.5rem 1.1rem;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:20px;
+  color:var(--text2);
+  font-size:.82rem;font-weight:500;
+  cursor:pointer;
+  transition:all .25s var(--ease);
+  white-space:nowrap;
+  user-select:none;
+}
+.loc-chip:hover,.loc-chip.active{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
+  box-shadow:0 2px 12px var(--accent-glow);
+}
+
+/* ===== MAIN ===== */
+.main{
+  max-width:1200px;margin:0 auto;
+  padding:1.5rem;
+}
+.section{
+  margin-bottom:2.5rem;
+  animation:fadeUp .5s var(--ease) both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.section-head{
+  display:flex;align-items:center;gap:.8rem;
+  margin-bottom:1.2rem;
+  padding-bottom:.8rem;
+  border-bottom:1px solid var(--divider);
+}
+.section-icon{font-size:1.6rem}
+.section-title{
+  font-size:clamp(1.15rem,3vw,1.4rem);
+  font-weight:700;
+}
+.section-count{
+  font-size:.75rem;
+  padding:.2rem .6rem;
+  background:var(--tag-bg);
+  color:var(--tag-text);
+  border-radius:8px;
+  font-weight:600;
+}
+.section-time{
+  margin-left:auto;
+  font-size:.78rem;
+  color:var(--time-icon);
+  display:flex;align-items:center;gap:.3rem;
+}
+
+/* ===== CARDS ===== */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1rem;
+}
+.card{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  padding:1.2rem;
+  cursor:pointer;
+  transition:all .3s var(--ease);
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 60%,var(--accent-glow));
+  opacity:0;transition:opacity .3s var(--ease);
+  pointer-events:none;
+}
+.card:hover{
+  background:var(--glass-hover);
+  transform:translateY(-4px);
+  box-shadow:var(--card-shadow);
+  border-color:var(--accent);
+}
+.card:hover::before{opacity:1}
+.card:active{transform:translateY(-2px) scale(.99)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.6rem}
+.card-name{
+  font-size:1rem;font-weight:700;
+  line-height:1.4;
+  flex:1;
+}
+.card-badge{
+  font-size:.65rem;
+  padding:.15rem .5rem;
+  background:var(--badge-bg);
+  color:var(--badge-text);
+  border-radius:6px;
+  font-weight:600;
+  white-space:nowrap;
+  margin-left:.5rem;
+  flex-shrink:0;
+}
+.card-cat{
+  font-size:.78rem;
+  color:var(--text2);
+  margin-bottom:.7rem;
+  transition:color .5s var(--ease);
+}
+.card-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.6rem}
+.tag{
+  font-size:.68rem;
+  padding:.2rem .55rem;
+  background:var(--tag-bg);
+  color:var(--tag-text);
+  border-radius:6px;
+  font-weight:500;
+}
+.tag-spicy{background:rgba(255,112,67,.15);color:var(--spicy)}
+.tag-sweet{background:rgba(255,138,101,.15);color:var(--sweet)}
+.tag-hot{background:rgba(239,83,80,.15);color:var(--hot)}
+.card-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-price{
+  font-size:1.1rem;font-weight:900;
+  color:var(--price);
+}
+.card-price.free{color:var(--time-icon)}
+.card-delivery{
+  font-size:.7rem;
+  color:var(--text2);
+  display:flex;align-items:center;gap:.3rem;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:1.5rem;
+  opacity:0;visibility:hidden;
+  transition:all .35s var(--ease);
+}
+.modal-overlay.open{opacity:1;visibility:visible}
+.modal{
+  background:var(--modal-bg);
+  border:1px solid var(--glass-border);
+  border-radius:20px;
+  max-width:480px;width:100%;
+  max-height:80vh;overflow-y:auto;
+  padding:2rem;
+  transform:translateY(30px) scale(.95);
+  transition:transform .35s var(--ease);
+  box-shadow:0 24px 80px rgba(0,0,0,.5);
+}
+.modal-overlay.open .modal{transform:translateY(0) scale(1)}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:50%;
+  color:var(--text);font-size:1.2rem;
+  cursor:pointer;
+  transition:all .25s var(--ease);
+}
+.modal-close:hover{background:var(--glass-hover);transform:rotate(90deg)}
+.modal-emoji{font-size:3rem;margin-bottom:1rem}
+.modal-name{font-size:1.4rem;font-weight:900;margin-bottom:.5rem}
+.modal-cat{color:var(--text2);font-size:.9rem;margin-bottom:1rem}
+.modal-row{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.6rem 0;
+  border-bottom:1px solid var(--divider);
+  font-size:.88rem;
+}
+.modal-row:last-child{border-bottom:none}
+.modal-label{color:var(--text2);min-width:60px}
+.modal-value{font-weight:600}
+.modal-price{font-size:1.6rem;font-weight:900;color:var(--price);margin:1rem 0}
+
+/* ===== TOAST ===== */
+.toast{
+  position:fixed;bottom:2rem;left:50%;
+  transform:translateX(-50%) translateY(100px);
+  padding:.8rem 1.5rem;
+  background:var(--accent);
+  color:#fff;border-radius:12px;
+  font-size:.88rem;font-weight:600;
+  box-shadow:0 8px 32px var(--accent-glow);
+  z-index:300;
+  opacity:0;
+  transition:all .4s var(--ease);
+  pointer-events:none;
+  white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* ===== BACK TO TOP ===== */
+.btt{
+  position:fixed;bottom:2rem;right:2rem;
+  width:46px;height:46px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--accent);
+  color:#fff;border:none;border-radius:50%;
+  font-size:1.3rem;
+  cursor:pointer;z-index:50;
+  box-shadow:0 4px 20px var(--accent-glow);
+  opacity:0;transform:scale(.8);
+  transition:all .3s var(--ease);
+  pointer-events:none;
+}
+.btt.show{opacity:1;transform:scale(1);pointer-events:auto}
+.btt:hover{transform:scale(1.1)}
+.btt:active{transform:scale(.95)}
+
+/* ===== EMPTY STATE ===== */
+.empty{
+  text-align:center;
+  padding:4rem 1rem;
+  color:var(--text2);
+}
+.empty-emoji{font-size:3rem;margin-bottom:1rem}
+.empty-text{font-size:1rem}
+
+/* ===== FOOTER ===== */
+.footer{
+  text-align:center;
+  padding:3rem 1.5rem 2rem;
+  color:var(--text2);
+  font-size:.78rem;
+  border-top:1px solid var(--divider);
+  max-width:1200px;
+  margin:0 auto;
+}
+.footer a{color:var(--accent);text-decoration:none}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .nav-inner{padding:.6rem 1rem;gap:.6rem}
+  .nav-logo{font-size:1.1rem}
+  .search-box input{padding:.55rem .8rem .55rem 2.2rem;font-size:.85rem}
+  .main{padding:1rem}
+  .cards{grid-template-columns:1fr}
+  .hero{min-height:100svh}
+  .hero-stats{gap:1.2rem}
+  .modal{padding:1.5rem;border-radius:16px}
+  .section-head{flex-wrap:wrap}
+  .section-time{margin-left:0;width:100%;margin-top:.3rem}
+  .btt{right:1rem;bottom:1.5rem;width:42px;height:42px}
+}
+@media(max-width:380px){
+  .hero-emoji{font-size:3.5rem}
+  .cards{gap:.8rem}
+  .card{padding:1rem}
+  .loc-chip{padding:.4rem .9rem;font-size:.78rem}
+}
+@media(min-width:769px) and (max-width:1024px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-emoji">🍚</div>
+    <h1>饭小赣</h1>
+    <p class="hero-sub">赣州职业技术学院 · 食堂之外的选择<br>奶茶咖啡 · 便利店 · 水果烘焙 · 校园商铺全覆盖</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num" id="statTotal">0</span><span class="stat-label">美食条目</span></div>
+      <div class="stat"><span class="stat-num" id="statLocation">0</span><span class="stat-label">覆盖区域</span></div>
+      <div class="stat"><span class="stat-num" id="statShop">0</span><span class="stat-label">入驻商家</span></div>
+    </div>
+    <a class="hero-cta" href="#main" onclick="smoothScroll(event)">🍜 开始探索</a>
+  </div>
+  <div class="scroll-hint">
+    <span>↓</span>
+    <span>下滑浏览</span>
+  </div>
+</section>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">🍚 饭小赣</div>
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="搜索菜品、商家、位置…" autocomplete="off">
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="themeBtn" title="切换主题" onclick="toggleTheme()">🌙</button>
+    </div>
+  </div>
+</nav>
+
+<!-- LOCATION NAV -->
+<div class="loc-nav" id="locNav"></div>
+
+<!-- MAIN -->
+<main class="main" id="main"></main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-emoji" id="modalEmoji"></div>
+    <div class="modal-name" id="modalName"></div>
+    <div class="modal-cat" id="modalCat"></div>
+    <div class="modal-price" id="modalPrice"></div>
+    <div id="modalRows"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- BACK TO TOP -->
+<button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- FOOTER -->
+<footer class="footer">
+  🍚 饭小赣 · 赣州职业技术学院食堂之外的选择<br>
+  数据仅供参考，以实际营业为准 · <a href="#">GitHub Pages</a>
+</footer>
+
+<script>
+// ============================================================
+// MENU_DATA — 所有数据集中在此，方便后续维护修改
+// 格式：location, shop, category, price, taste, tags, hours, peak, delivery
+// ============================================================
+const MENU_DATA = [
+  // ── 一食堂 ──
+  {location:"一食堂一楼",shop:"蜜雪冰城",category:"奶茶饮品",price:"未知",taste:"甜",tags:["高糖"],hours:"09:00-22:00",peak:"未知",delivery:"可点外卖、可团购"},
+  {location:"一食堂二楼",shop:"超市",category:"泡面零食饮料及生活用品",price:"未知",taste:"无标签",tags:["无标签"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+
+  // ── 二食堂 ──
+  {location:"二食堂一楼",shop:"略略熊批发超市",category:"泡面零食饮料及生活用品",price:"未知",taste:"无标签",tags:["无标签"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+
+  // ── 图书馆 ──
+  {location:"图书馆一楼",shop:"卡拉多面包店",category:"面包甜点",price:"未知",taste:"甜",tags:["高糖","高碳水"],hours:"未知",peak:"未知",delivery:"未入驻外卖平台"},
+
+  // ── 学生公寓二栋北 ──
+  {location:"学生公寓二栋北",shop:"瑞幸咖啡",category:"咖啡饮品",price:"未知",taste:"未知",tags:["未知"],hours:"08:00-21:30",peak:"未知",delivery:"入驻美团"},
+  {location:"学生公寓二栋北",shop:"快乐番薯",category:"奶茶饮品",price:"未知",taste:"甜",tags:["高糖"],hours:"08:00-21:30",peak:"未知",delivery:"入驻美团"},
+  {location:"学生公寓二栋北",shop:"新创便利店",category:"泡面零食饮料冰淇淋及生活用品",price:"未知",taste:"无标签",tags:["无标签"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓二栋北",shop:"新创便利店加料区",category:"精致熏煮香肠",price:"3元",taste:"辣/微辣/特辣可选",tags:["高蛋白","高热量"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓二栋北",shop:"新创便利店加料区",category:"台湾墨鱼汁肠",price:"3元",taste:"无标签",tags:["高蛋白"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓二栋北",shop:"新创便利店加料区",category:"脆骨肠",price:"2元",taste:"无标签",tags:["高蛋白"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓二栋北",shop:"新创便利店加料区",category:"鱼丸",price:"2元3个",taste:"无标签",tags:["高蛋白"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓二栋北",shop:"新创便利店加料区",category:"肉肠",price:"3元1根5元2根",taste:"无标签",tags:["高蛋白","高热量"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+
+  // ── 学生公寓C2北 ──
+  {location:"学生公寓C2北",shop:"汇佳便利店",category:"泡面零食饮料及生活用品",price:"未知",taste:"无标签",tags:["无标签"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓C2北",shop:"汇佳便利店加料区",category:"精致熏煮香肠",price:"3元",taste:"辣/微辣/特辣可选",tags:["高蛋白","高热量"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓C2北",shop:"汇佳便利店加料区",category:"台湾墨鱼汁肠",price:"3元",taste:"无标签",tags:["高蛋白"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓C2北",shop:"汇佳便利店加料区",category:"脆骨肠",price:"2元",taste:"无标签",tags:["高蛋白"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓C2北",shop:"汇佳便利店加料区",category:"鱼丸",price:"2元3个",taste:"无标签",tags:["高蛋白"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓C2北",shop:"汇佳便利店加料区",category:"肉肠",price:"3元1根5元2根",taste:"无标签",tags:["高蛋白","高热量"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓C2北",shop:"1号果园",category:"新鲜水果",price:"未知",taste:"无标签",tags:["富含维C"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓C2北",shop:"古茗咖啡",category:"咖啡饮品",price:"未知",taste:"未知",tags:["未知"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+
+  // ── 学生公寓C4楼下 ──
+  {location:"学生公寓C4楼下",shop:"丫丫烘焙",category:"烤面包手抓饼牛奶",price:"未知",taste:"甜/咸",tags:["高碳水","高蛋白"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓C4楼下",shop:"校园便利店",category:"泡面零食饮料及生活用品",price:"未知",taste:"无标签",tags:["无标签"],hours:"08:00-21:30",peak:"未知",delivery:"未入驻外卖平台"},
+
+  // ── 学生公寓C10楼下 ──
+  {location:"学生公寓C10楼下",shop:"好吃的零食店",category:"零食饮料",price:"未知",taste:"无标签",tags:["无标签"],hours:"未知",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓C10楼下",shop:"好吃的零食店加料区",category:"茶叶蛋",price:"2元",taste:"无标签",tags:["高蛋白"],hours:"未知",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓C10楼下",shop:"好吃的零食店加料区",category:"肉肠",price:"3元",taste:"无标签",tags:["高蛋白","高热量"],hours:"未知",peak:"未知",delivery:"未入驻外卖平台"},
+  {location:"学生公寓C10楼下",shop:"好吃的零食店加料区",category:"鱼丸",price:"2元1串3个",taste:"无标签",tags:["高蛋白"],hours:"未知",peak:"未知",delivery:"未入驻外卖平台"},
+
+  // ── 综合实训基地 ──
+  {location:"综合实训基地",shop:"U果汇水果店",category:"新鲜水果",price:"未知",taste:"无标签",tags:["富含维C"],hours:"未知",peak:"未知",delivery:"可关注微信公众号扫码下单"},
+
+  // ── 全校范围 ──
+  {location:"全校范围",shop:"季节限定",category:"李子成熟可采摘",price:"免费",taste:"酸甜",tags:["富含维C"],hours:"特定时期",peak:"无高峰期",delivery:"无外卖"}
+];
+
+// 营业时间规则
+const TIME_RULES = [
+  {label:"早餐",time:"06:30-10:30"},
+  {label:"午餐",time:"10:30-13:30"},
+  {label:"下午空档",time:"13:30-16:30"},
+  {label:"晚餐",time:"16:30-19:30"},
+  {label:"夜宵",time:"19:30-20:30"}
+];
+const SPECIAL_NOTES = [
+  "早餐10点半后停止供应",
+  "午餐下午1点半到4点半不提供",
+  "一食堂一二楼 19:30 关闭",
+  "二食堂一二楼 19:30 关闭",
+  "三食堂一二楼 20:30 关闭"
+];
+
+// ============================================================
+// 分类图标映射
+// ============================================================
+const CAT_ICONS = {
+  "奶茶饮品":"🧋","咖啡饮品":"☕","面包甜点":"🍞","泡面零食饮料及生活用品":"🏪",
+  "泡面零食饮料冰淇淋及生活用品":"🏪","泡面零食饮料及生活用品":"🏪",
+  "零食饮料":"🍬","新鲜水果":"🍎","精致熏煮香肠":"🌭","台湾墨鱼汁肠":"🦑",
+  "脆骨肠":"🍖","鱼丸":"🍡","肉肠":"🌭","茶叶蛋":"🥚",
+  "烤面包手抓饼牛奶":"🥐","李子成熟可采摘":"🍑"
+};
+const LOC_ICONS = {
+  "一食堂":"🏫","二食堂":"🏫","三食堂":"🏫",
+  "图书馆":"📚","学生公寓":"🏠","综合实训基地":"🔧","全校范围":"🌍"
+};
+
+// ============================================================
+// 状态
+// ============================================================
+let currentLoc = "全部";
+let searchQuery = "";
+
+// ============================================================
+// 初始化
+// ============================================================
+document.addEventListener("DOMContentLoaded", () => {
+  initParticles();
+  initStats();
+  initLocNav();
+  renderCards();
+  initSearch();
+  initTheme();
+  initScrollEffects();
+});
+
+// ── 粒子 ──
+function initParticles() {
+  const c = document.getElementById("particles");
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    const s = Math.random() * 6 + 2;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*8+6}s;animation-delay:${Math.random()*6}s`;
+    c.appendChild(p);
+  }
+}
+
+// ── 统计 ──
+function initStats() {
+  const shops = new Set(MENU_DATA.map(d => d.shop));
+  const locs = new Set(MENU_DATA.map(d => d.location));
+  animateNum("statTotal", MENU_DATA.length);
+  animateNum("statLocation", locs.size);
+  animateNum("statShop", shops.size);
+}
+function animateNum(id, target) {
+  const el = document.getElementById(id);
+  let cur = 0;
+  const step = Math.max(1, Math.floor(target / 30));
+  const iv = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = cur;
+    if (cur >= target) clearInterval(iv);
+  }, 30);
+}
+
+// ── 地点导航 ──
+function initLocNav() {
+  const nav = document.getElementById("locNav");
+  const locs = ["全部", ...new Set(MENU_DATA.map(d => d.location))];
+  locs.forEach(loc => {
+    const chip = document.createElement("div");
+    chip.className = "loc-chip" + (loc === "全部" ? " active" : "");
+    chip.textContent = loc;
+    chip.onclick = () => {
+      currentLoc = loc;
+      document.querySelectorAll(".loc-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      renderCards();
+      chip.scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});
+    };
+    nav.appendChild(chip);
+  });
+}
+
+// ── 渲染卡片 ──
+function renderCards() {
+  const main = document.getElementById("main");
+  main.innerHTML = "";
+
+  let data = MENU_DATA;
+  if (currentLoc !== "全部") {
+    data = data.filter(d => d.location === currentLoc);
+  }
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    data = data.filter(d =>
+      d.shop.toLowerCase().includes(q) ||
+      d.category.toLowerCase().includes(q) ||
+      d.location.toLowerCase().includes(q) ||
+      d.taste.toLowerCase().includes(q) ||
+      d.tags.some(t => t.toLowerCase().includes(q))
+    );
+  }
+
+  if (data.length === 0) {
+    main.innerHTML = `<div class="empty"><div class="empty-emoji">🍜</div><div class="empty-text">没有找到相关美食，换个关键词试试？</div></div>`;
+    return;
+  }
+
+  // 按地点分组
+  const groups = {};
+  data.forEach(d => {
+    if (!groups[d.location]) groups[d.location] = [];
+    groups[d.location].push(d);
+  });
+
+  Object.keys(groups).forEach((loc, gi) => {
+    const sec = document.createElement("div");
+    sec.className = "section";
+    sec.style.animationDelay = `${gi * 0.08}s`;
+
+    const iconKey = Object.keys(LOC_ICONS).find(k => loc.includes(k));
+    const locIcon = iconKey ? LOC_ICONS[iconKey] : "📍";
+    const items = groups[loc];
+
+    sec.innerHTML = `
+      <div class="section-head">
+        <span class="section-icon">${locIcon}</span>
+        <span class="section-title">${loc}</span>
+        <span class="section-count">${items.length} 项</span>
+      </div>
+      <div class="cards">${items.map((d, i) => renderCard(d, i)).join("")}</div>
+    `;
+    main.appendChild(sec);
+  });
+
+  // 绑定卡片点击
+  main.querySelectorAll(".card").forEach(card => {
+    card.onclick = () => openModal(JSON.parse(card.dataset.info));
+  });
+}
+
+function renderCard(d, i) {
+  const catIcon = CAT_ICONS[d.category] || "🍴";
+  const isFree = d.price === "免费";
+  const isUnknown = d.price === "未知";
+  const priceText = isFree ? "🆓 免费" : isUnknown ? "💰 价格待确认" : `💰 ${d.price}`;
+
+  const tasteClass = d.taste.includes("辣") ? "tag-spicy" : d.taste === "甜" ? "tag-sweet" : "";
+  const tagHtml = d.taste !== "无标签" && d.taste !== "未知"
+    ? `<span class="tag ${tasteClass}">${d.taste}</span>`
+    : "";
+  const tagTags = d.tags.filter(t => t !== "无标签" && t !== "未知")
+    .map(t => `<span class="tag">${t}</span>`).join("");
+
+  const deliveryBadge = (d.delivery.includes("外卖") && !d.delivery.includes("无外卖") && !d.delivery.startsWith("无"))
+    ? `<span class="card-badge">🛵 可外卖</span>`
+    : d.delivery.includes("团购")
+    ? `<span class="card-badge">👥 团购</span>`
+    : d.delivery.includes("公众号")
+    ? `<span class="card-badge">📱 公众号下单</span>`
+    : "";
+
+  return `
+    <div class="card" data-info='${JSON.stringify(d)}' style="animation-delay:${i * 0.04}s">
+      <div class="card-top">
+        <div class="card-name">${catIcon} ${d.category}</div>
+        ${deliveryBadge}
+      </div>
+      <div class="card-cat">🏪 ${d.shop}</div>
+      <div class="card-tags">${tagHtml}${tagTags}</div>
+      <div class="card-bottom">
+        <div class="card-price ${isFree ? 'free' : ''}">${priceText}</div>
+        ${d.hours !== "未知" ? `<div class="card-delivery">🕐 ${d.hours}</div>` : ""}
+      </div>
+    </div>
+  `;
+}
+
+// ── 搜索 ──
+function initSearch() {
+  const input = document.getElementById("searchInput");
+  let timer;
+  input.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      searchQuery = input.value.trim();
+      renderCards();
+    }, 200);
+  });
+}
+
+// ── 主题 ──
+function initTheme() {
+  const saved = localStorage.getItem("fxg-theme");
+  if (saved) document.documentElement.dataset.theme = saved;
+  updateThemeBtn();
+}
+function toggleTheme() {
+  const html = document.documentElement;
+  html.dataset.theme = html.dataset.theme === "dark" ? "light" : "dark";
+  localStorage.setItem("fxg-theme", html.dataset.theme);
+  updateThemeBtn();
+  showToast(html.dataset.theme === "dark" ? "🌙 已切换深色模式" : "☀️ 已切换浅色模式");
+}
+function updateThemeBtn() {
+  document.getElementById("themeBtn").textContent = document.documentElement.dataset.theme === "dark" ? "🌙" : "☀️";
+}
+
+// ── 滚动效果 ──
+function initScrollEffects() {
+  const btt = document.getElementById("btt");
+  window.addEventListener("scroll", () => {
+    btt.classList.toggle("show", window.scrollY > 600);
+  }, {passive: true});
+}
+
+// ── Modal ──
+function openModal(d) {
+  const m = document.getElementById("modal");
+  const catIcon = CAT_ICONS[d.category] || "🍴";
+  document.getElementById("modalEmoji").textContent = catIcon;
+  document.getElementById("modalName").textContent = d.category;
+  document.getElementById("modalCat").textContent = `🏪 ${d.shop} · ${d.location}`;
+
+  const isFree = d.price === "免费";
+  const isUnknown = d.price === "未知";
+  document.getElementById("modalPrice").textContent = isFree ? "🆓 免费" : isUnknown ? "💰 价格待确认" : `💰 ${d.price}`;
+  document.getElementById("modalPrice").style.color = isFree ? "var(--time-icon)" : "var(--price)";
+
+  const rows = [
+    {label:"📍 位置",value:d.location},
+    {label:"🏪 商家",value:d.shop},
+    {label:"📂 分类",value:d.category},
+    {label:"👅 口味",value:d.taste !== "无标签" && d.taste !== "未知" ? d.taste : "—"},
+    {label:"🏷️ 标签",value:d.tags.filter(t => t !== "无标签" && t !== "未知").join("、") || "—"},
+    {label:"🕐 营业",value:d.hours !== "未知" ? d.hours : "—"},
+    {label:"🛵 外卖",value:d.delivery}
+  ];
+  document.getElementById("modalRows").innerHTML = rows.map(r => `
+    <div class="modal-row">
+      <span class="modal-label">${r.label}</span>
+      <span class="modal-value">${r.value}</span>
+    </div>
+  `).join("");
+
+  m.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeModal(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById("modal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal({target: document.getElementById("modal"), currentTarget: document.getElementById("modal")}); });
+
+// ── Toast ──
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2000);
+}
+
+// ── Smooth Scroll ──
+function smoothScroll(e) {
+  e.preventDefault();
+  document.getElementById("main").scrollIntoView({behavior: "smooth"});
+}
+</script>
+</body>
+</html>
